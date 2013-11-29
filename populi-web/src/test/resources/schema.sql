@@ -1,0 +1,3 @@
+CREATE USER populi WITH PASSWORD 'populi';
+CREATE DATABASE populi;
+GRANT ALL PRIVILEGES ON DATABASE populi to populi;

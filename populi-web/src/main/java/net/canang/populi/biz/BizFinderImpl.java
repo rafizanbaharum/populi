@@ -29,11 +29,35 @@ public class BizFinderImpl implements BizFinder {
 
     @Override
     public List<Node> findAround(Double radius, Double myLat, Double myLon) {
-        return nodeDao.findAround(radius, myLat, myLon);
+//        return nodeDao.findAround(Point point, Point location);
+        return null;
     }
 
     @Override
-    public void saveNode(Node node) {
+    public List<Node> findNodesByDistrict(District district) {
+        return districtDao.findNodes(district);
+    }
+
+    @Override
+    public District findDistrictById(Long id) {
+        return districtDao.findById(id);
+    }
+
+    @Override
+    public List<District> findDistricts() {
+        return districtDao.find();
+    }
+
+
+    @Override
+    public List<DistrictPoint> findDistrictPoints(District district) {
+        return districtDao.findPoints(district);
+
+    }
+
+    @Override
+    public void addNode(District district, Node node) {
+        node.setDistrict(district);
         nodeDao.save(node);
         sessionFactory.getCurrentSession().flush();
     }
@@ -43,19 +67,4 @@ public class BizFinderImpl implements BizFinder {
         districtDao.addPoint(district, point);
     }
 
-    @Override
-    public District findDistrictById(Long id) {
-        return districtDao.findById(id);
-    }
-
-    @Override
-    public List<Node> findNodesByDistrict(District district) {
-        return districtDao.findNodes(district);
-    }
-
-    @Override
-    public List<DistrictPoint> findDistrictPoints(District district) {
-        return districtDao.findPoints(district);
-
-    }
 }

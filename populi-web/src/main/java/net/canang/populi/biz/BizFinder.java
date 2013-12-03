@@ -12,15 +12,17 @@ import java.util.List;
  */
 public interface BizFinder {
 
-    List<Node> findAround(Double radius, Double myLat, Double myLon);
-
     District findDistrictById(Long id);
 
-    List<Node> findNodesByDistrict(District district);
+    List<District> findDistricts();
 
     List<DistrictPoint> findDistrictPoints(District district);
 
-    void saveNode(Node Node);
+    List<Node> findAround(Double radius, Double myLat, Double myLon);
+
+    List<Node> findNodesByDistrict(District district);
+
+    void addNode(District district, Node Node);
 
     void addDistrictPoint(District district, DistrictPoint point);
 

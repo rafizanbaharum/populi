@@ -1,6 +1,7 @@
 package net.canang.populi.core.dao;
 
 
+import com.vividsolutions.jts.geom.Point;
 import net.canang.populi.core.model.Node;
 
 import java.util.List;
@@ -15,7 +16,9 @@ public interface NodeDao {
 
     List<Node> find();
 
-    List<Node> findAround(Double radius, Double latitude, Double longitude);
+    List<Node> findAround(Point point);
+
+    List<Node> findWithin(String filter);
 
     Integer count();
 

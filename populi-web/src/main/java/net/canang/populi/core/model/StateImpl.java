@@ -28,6 +28,8 @@ public class StateImpl implements State, Serializable {
     @Column(name = "DESCRIPTION")
     private String description;
 
+
+
     public Long getId() {
         return id;
     }

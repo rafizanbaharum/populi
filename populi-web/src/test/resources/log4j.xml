@@ -9,8 +9,15 @@
         </layout>
     </appender>
 
+    <logger name="org.postgis">
+        <level value="DEBUG"/>
+    </logger>
 
-    <logger name="net.canang.acropolis.core">
+    <logger name="org.hibernate">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="net.canang.populi.core">
         <level value="DEBUG"/>
     </logger>
 

@@ -14,7 +14,7 @@
             src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 
     <script type="text/javascript">
-        var districtId = ${request}
+        var districtId = ${district.getId()};
         var map;
         var marker;
         var heatmap;
@@ -111,7 +111,7 @@
             // Set chart options
             var options = {'title':'Kecenderungan Kawasan',
                 'width':250,
-                'height':100};
+                'height':180};
 
             var node = document.createElement('div');
             var infoWindow = new google.maps.InfoWindow();

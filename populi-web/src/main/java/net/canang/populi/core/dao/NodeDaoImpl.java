@@ -1,15 +1,10 @@
 package net.canang.populi.core.dao;
 
+import com.vividsolutions.jts.geom.Point;
 import net.canang.populi.core.model.Node;
-import net.canang.populi.core.model.NodeImpl;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.search.FullTextQuery;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
-import org.hibernate.search.query.dsl.QueryBuilder;
-import org.hibernate.search.query.dsl.Unit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,29 +40,17 @@ public class NodeDaoImpl implements NodeDao {
     }
 
     @Override
-    public List<Node> findAround(Double radius, Double latitude, Double longitude) {
-        FullTextSession fullTextSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
-        QueryBuilder builder = fullTextSession
-                .getSearchFactory()
-                .buildQueryBuilder().forEntity(NodeImpl.class).get();
+    public List<Node> findAround(Point point) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select i from Node i");
+        return (List<Node>) query.list();
+    }
 
-//        org.apache.lucene.search.Query termQuery = builder.keyword().b
-//                .onField(Node.STATUS)
-//                .matching(status)
-//                .createQuery();
-
-        org.apache.lucene.search.Query luceneQuery = builder.spatial()
-                .onCoordinates(Node.FIELD)
-                .within(radius, Unit.KM)
-                .ofLatitude(latitude)
-                .andLongitude(longitude)
-                .createQuery();
-
-        org.apache.lucene.search.Query combine = luceneQuery;
-        //.combine(new org.apache.lucene.search.Query[]{termQuery});
-        log.debug("query: " + combine.toString());
-        FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(combine, NodeImpl.class);
-        return fullTextQuery.list();
+    @Override
+    public List<Node> findWithin(String filter) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select i from Node i where within(i.location, '" + filter + "') = true"); // TODO: set param
+        return (List<Node>) query.list();
     }
 
     public Integer count() {

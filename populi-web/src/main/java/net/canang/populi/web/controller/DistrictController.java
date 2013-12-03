@@ -1,21 +1,19 @@
 package net.canang.populi.web.controller;
 
 import net.canang.populi.biz.BizFinder;
-import net.canang.populi.core.model.*;
+import net.canang.populi.core.model.District;
+import net.canang.populi.core.model.DistrictPoint;
+import net.canang.populi.core.model.DistrictPointImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- *
  * @author rafizan.baharum
  * @since 6/29/13
  */
@@ -28,6 +26,18 @@ public class DistrictController {
 
     @Autowired
     private BizFinder finder;
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String list(ModelMap model) {
+        model.put("districts", finder.findDistricts());
+        return "district_list";
+    }
+
+    @RequestMapping(value = "/navigate/{id}", method = RequestMethod.GET)
+    public String navigate(@PathVariable("id") Long id, ModelMap model) {
+        model.put("district", finder.findDistrictById(id));
+        return "district_navigate";
+    }
 
     @RequestMapping(value = "/view", method = RequestMethod.GET)
     public String view(ModelMap model) {

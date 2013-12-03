@@ -1,3 +1,5 @@
+
+
 https://code.google.com/p/gwt-google-apis/
 http://www.mapsmaniac.com/2012/02/using-gwt-with-google-maps-api-v3.html
 http://www.mapsmaniac.com/2012/02/search-for-properties-near-your-friends.html
@@ -15,3 +17,10 @@ SHA1: B7:B3:3C:BB:3D:D6:AA:E2:33:9C:FA:9A:BB:12:52:E2:51:0E:39:35
 
 android:AIzaSyDbT0_e_01JB3LJm56gj5Co0aP_0okSLA4
 browserapp:AIzaSyA9PTc9RgylBuf0tSRrQsPI3SSPTjPXOJY
+
+
+walk list
+canvassing
+gotv
+volunteer
+data points

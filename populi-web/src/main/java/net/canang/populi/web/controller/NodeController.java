@@ -62,8 +62,7 @@ public class NodeController {
         node.setInclinationType(InclinationType.BLUE);
         node.setLatitude(Double.parseDouble(lat));
         node.setLongitude(Double.parseDouble(lng));
-        node.setDistrict(district);
-        finder.saveNode(node);
+        finder.addNode(district, node);
         return "success";
     }
 }

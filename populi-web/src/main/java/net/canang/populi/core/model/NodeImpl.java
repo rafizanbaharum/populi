@@ -29,29 +29,21 @@ public class NodeImpl implements Node, Serializable {
     @Column(name = "NAME")
     private String name;
 
+    @Column(name = "PHONE")
+    private String phone;
+
     @Column(name = "NRIC_NO")
     private String nricNo;
 
     @Column(name = "ADDRESS")
     private String address;
 
-    @Column(name = "LAT")
-    private Double latitude;
-
-    @Column(name = "LON")
-    private Double longitude;
-
-    @Type(type="org.hibernate.spatial.GeometryType")
+    @Type(type = "org.hibernate.spatial.GeometryType")
     private Point location;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "INCLINATION_TYPE")
     private InclinationType inclinationType;
-
-    @JsonIgnore
-    @ManyToOne(targetEntity = DistrictImpl.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "DISTRICT_ID")
-    private District district;
 
     @JsonIgnore
     @OneToMany(targetEntity = NodeAttributeImpl.class, mappedBy = "node")
@@ -76,6 +68,14 @@ public class NodeImpl implements Node, Serializable {
         this.name = name;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getNricNo() {
         return nricNo;
     }
@@ -92,22 +92,6 @@ public class NodeImpl implements Node, Serializable {
         this.address = address;
     }
 
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
     public Point getLocation() {
         return location;
     }
@@ -122,14 +106,6 @@ public class NodeImpl implements Node, Serializable {
 
     public void setInclinationType(InclinationType inclinationType) {
         this.inclinationType = inclinationType;
-    }
-
-    public District getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(District district) {
-        this.district = district;
     }
 
     public List<NodeAttribute> getAttributes() {

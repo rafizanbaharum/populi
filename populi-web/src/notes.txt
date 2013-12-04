@@ -18,6 +18,20 @@ SHA1: B7:B3:3C:BB:3D:D6:AA:E2:33:9C:FA:9A:BB:12:52:E2:51:0E:39:35
 android:AIzaSyDbT0_e_01JB3LJm56gj5Co0aP_0okSLA4
 browserapp:AIzaSyA9PTc9RgylBuf0tSRrQsPI3SSPTjPXOJY
 
+https://developers.google.com/maps/documentation/javascript/examples/drawing-tools
+
+http://stackoverflow.com/questions/15454919/extract-drawingmanager-polygon-path-google-maps-on-click
+http://www.geocodezip.com/blitz-gmap-editor/test5.html
+
+http://workshops.boundlessgeo.com/postgis-intro/spatial_relationships.html#st-distance-and-st-dwithin
+https://developers.google.com/maps/documentation/javascript/drawing
+https://google-developers.appspot.com/maps/documentation/javascript/examples/full/drawing-tools
+https://developers.google.com/maps/documentation/javascript/examples/polygon-arrays
+https://developers.google.com/maps/documentation/javascript/reference?csw=1#InfoWindowOptions
+
+
+http://jsfiddle.net/A96Hu/  - drawing with form
+
 
 walk list
 canvassing

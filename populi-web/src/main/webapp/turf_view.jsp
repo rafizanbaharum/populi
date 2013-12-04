@@ -4,6 +4,7 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.min.css">
@@ -22,67 +23,77 @@
     </script>
 
     <script type="text/javascript">
-        var districtId = ${district.id};
+        var turfId = ${turf.getId()};
         var map;
-        var marker;
         var heatmap;
         var center = new google.maps.LatLng(1.5243, 103.64988);
         var data = new google.maps.MVCArray();
-
         google.load("visualization", "1", {packages:["corechart"]});
 
         function initialize() {
             var mapOptions = {
                 center: center,
-                zoom: 11,
+                zoom: 13,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-            addDistrict();
-            addTurfs();
+
+            addNodes();
+            addTurf();
         }
 
-        function addDistrict() {
-            $.getJSON('/district/findDistrict?id=' + districtId, function(district) {
+        function addTurf() {
+            $.getJSON('/turf/findTurf?id=' + turfId, function(turf) {
                 var polyOptions = {
                     strokeColor: '#0000FF',
-                    strokeOpacity: 0.5,
+                    strokeOpacity: 0.8,
                     strokeWeight: 2,
                     fillColor: '#0000FF',
-                    fillOpacity: 0.2,
-                    indexID:district.id,
+                    fillOpacity: 0.08,
+                    indexID:turf.id,
                     map:map
                 };
                 var poly = new google.maps.Polygon(polyOptions);
-                var bounds = district.bounds;
+                var bounds = turf.bounds;
                 for (var j = 0; j < bounds.length; j++) {
                     var latlng = new google.maps.LatLng(bounds[j].x, bounds[j].y);
                     poly.getPath().push(latlng);
                 }
-                addTurfs(district.id);
+                attachInfoWindow(poly);
             });
         }
 
-        function addTurfs() {
-            $.getJSON('/turf/findAllTurfs?districtId=' + districtId, function(turfs) {
-                for (var i = 0; i < turfs.length; i++) {
-                    var turf = turfs[i];
-                    var polyOptions = {
-                        strokeColor: '#0000FF',
-                        strokeOpacity: 0.5,
-                        strokeWeight: 2,
-                        fillColor: '#0000FF',
-                        fillOpacity: 0.2,
-                        indexID:turf.id,
-                        map:map
-                    };
-                    var poly = new google.maps.Polygon(polyOptions);
-                    var bounds = turf.bounds;
-                    for (var j = 0; j < bounds.length; j++) {
-                        var latlng = new google.maps.LatLng(bounds[j].x, bounds[j].y);
-                        poly.getPath().push(latlng);
-                    }
-                    attachInfoWindow(poly);
+        function addNodes() {
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                map: map,
+                data: data,
+                radius: 20,
+                dissipate: true,
+                maxIntensity: 10,
+                gradient: [
+                    'rgba(0, 255, 255, 0)',
+                    'rgba(0, 255, 255, 1)',
+                    'rgba(0, 191, 255, 1)',
+                    'rgba(0, 127, 255, 1)',
+                    'rgba(0, 63, 255, 1)',
+                    'rgba(0, 0, 255, 1)',
+                    'rgba(0, 0, 223, 1)',
+                    'rgba(0, 0, 191, 1)',
+                    'rgba(0, 0, 159, 1)',
+                    'rgba(0, 0, 127, 1)',
+                    'rgba(63, 0, 91, 1)',
+                    'rgba(127, 0, 63, 1)',
+                    'rgba(191, 0, 31, 1)',
+                    'rgba(255, 0, 0, 1)'
+                ]
+            });
+
+            $.getJSON('/node/findNodesWithinTurf?turfId=' + turfId, function(nodes) {
+                for (var i = 0; i < nodes.length; i++) {
+                    var node = nodes[i];
+                    console.log(node);
+                    latlng = new google.maps.LatLng(node.x, node.y);
+                    data.push(latlng);
                 }
             });
         }
@@ -107,69 +118,45 @@
                     width:250,
                     height:180
                 };
-                var main = document.createElement('div');
                 var inner = document.createElement('div');
-                var link = document.createElement('div');
                 var infoWindow = new google.maps.InfoWindow();
                 var chart = new google.visualization.PieChart(inner);
 
-                // link to turf
-                var turfLink = document.createElement("a")
-                turfLink.setAttribute("href", "/turf/view/" + polygon.indexID);
-                turfLink.innerHTML = "View Turf";
-                link.appendChild(turfLink);
-
-                // link to turf
-                var eventLink = document.createElement("a")
-                eventLink.setAttribute("href", "/district/view/" + districtId);
-                eventLink.innerHTML = " | View Events";
-                link.appendChild(eventLink);
-
-                // link to report
-                var reportLink = document.createElement("a")
-                reportLink.setAttribute("href", "/turf/report/" + polygon.indexID);
-                reportLink.innerHTML = " | View Reports";
-                link.appendChild(reportLink);
-
-                main.appendChild(inner);
-                main.appendChild(link);
-
                 chart.draw(data, options);
-                infoWindow.setContent(main);
+                infoWindow.setContent(inner);
                 infoWindow.setPosition(event.latLng);
                 infoWindow.open(map);
             });
 
         }
 
-        google.maps.event.addDomListener(window, 'load', initialize);
 
+        google.maps.event.addDomListener(window, 'load', initialize);
     </script>
 </head>
 <body>
-<h3>Navigate District: ${district.name} (${district.headCount})</h3>
-
+<h3>Turf View: ${turf.name} (${turf.headCount})</h3>
 <div id="map-canvas" style="width:100%; height:20em"></div>
 <div id="data" style="width:100%">
     <table class="table table-hover" id="sample-table-1">
         <thead>
         <tr>
             <th class="center">#</th>
-            <th>Code</th>
             <th>Name</th>
-            <th>Description</th>
-            <th>HeadCount</th>
+            <th>IC</th>
+            <th>Phone</th>
+            <th>Inclination</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="turf" items="${turfs}" varStatus="idx">
+        <c:forEach var="node" items="${nodes}" varStatus="idx">
             <tr>
                 <td>${idx.count}</td>
-                <td>${turf.code}</td>
-                <td>${turf.name}</td>
-                <td></td>
-                <td>${turf.headCount}</td>
+                <td>${node.name}</td>
+                <td>${node.nricNo}</td>
+                <td>${node.phone}</td>
+                <td>${node.inclinationType}</td>
             </tr>
         </c:forEach>
         </tbody>

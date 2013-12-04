@@ -1,5 +1,7 @@
 package net.canang.populi.core.model;
 
+import com.vividsolutions.jts.geom.Polygon;
+import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Indexed;
 
@@ -28,9 +30,15 @@ public class DistrictImpl implements District, Serializable {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @Type(type = "org.hibernate.spatial.GeometryType")
+    private Polygon bound;
+
     @ManyToOne(targetEntity = StateImpl.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "STATE_ID")
     private State state;
+
+    @Transient
+    private Integer headCount;
 
     public Long getId() {
         return id;
@@ -56,11 +64,27 @@ public class DistrictImpl implements District, Serializable {
         this.code = code;
     }
 
+    public Polygon getBound() {
+        return bound;
+    }
+
+    public void setBound(Polygon bound) {
+        this.bound = bound;
+    }
+
     public State getState() {
         return state;
     }
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public Integer getHeadCount() {
+        return headCount;
+    }
+
+    public void setHeadCount(Integer headCount) {
+        this.headCount = headCount;
     }
 }

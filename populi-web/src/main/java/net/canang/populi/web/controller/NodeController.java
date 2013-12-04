@@ -1,10 +1,13 @@
 package net.canang.populi.web.controller;
 
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
 import net.canang.populi.biz.BizFinder;
-import net.canang.populi.core.model.District;
-import net.canang.populi.core.model.InclinationType;
-import net.canang.populi.core.model.Node;
-import net.canang.populi.core.model.NodeImpl;
+import net.canang.populi.core.model.*;
+import net.canang.populi.web.Utils;
+import net.canang.populi.web.model.Converter;
+import net.canang.populi.web.model.NodeModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +35,9 @@ public class NodeController {
     private Logger log = LoggerFactory.getLogger(NodeController.class);
 
     @Autowired
+    private Converter converter;
+
+    @Autowired
     private BizFinder finder;
 
     @RequestMapping(value = "/view", method = RequestMethod.GET)
@@ -43,26 +50,65 @@ public class NodeController {
         return "node_data";
     }
 
-    @RequestMapping(value = "/find", method = RequestMethod.GET)
+    @RequestMapping(value = "/draw", method = RequestMethod.GET)
+    public String draw(ModelMap model) {
+        return "node_draw";
+    }
+
+
+    @RequestMapping(value = "/findNodesWithinDistrict", method = RequestMethod.GET)
     public
     @ResponseBody
-    List<Node> findNodes(@RequestParam Long districtId) {
+    List<NodeModel> findNodesWithinDistrict(@RequestParam Long districtId) {
         District district = finder.findDistrictById(districtId);
-        List<Node> nodes = finder.findNodesByDistrict(district);
+        List<Node> nodes = finder.findNodesWithinDistrict(district);
+        List<NodeModel> models = new ArrayList<NodeModel>();
+        for (Node node : nodes) {
+            Point location = node.getLocation();
+            NodeModel model = new NodeModel(
+                    node.getId(),
+                    node.getName(),
+                    node.getNricNo(),
+                    node.getPhone(),
+                    node.getInclinationType().ordinal(),
+                    location.getCoordinate().x,
+                    location.getCoordinate().y);
+            models.add(model);
+        }
         log.debug("result: " + nodes.size());
-        return nodes;
+        return models;
+    }
+
+    @RequestMapping(value = "/findNodesWithinTurf", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    List<NodeModel> findNodesWithinTurf(@RequestParam Long turfId) {
+        Turf turf = finder.findTurfById(turfId);
+        List<Node> nodes = finder.findNodesWithinTurf(turf);
+        List<NodeModel> models = new ArrayList<NodeModel>();
+        for (Node node : nodes) {
+            if (null != node.getLocation()) {
+                models.add(converter.convert(node, node.getLocation()));
+            }
+        }
+        log.debug("result: " + nodes.size());
+        return models;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     @ResponseBody
-    public String addNode(@RequestParam Long districtId, @RequestParam String lat, @RequestParam String lng) {
-        log.debug("lat: " + lat + " lng: " + lng);
-        District district = finder.findDistrictById(districtId);
-        Node node = new NodeImpl();
-        node.setInclinationType(InclinationType.BLUE);
-        node.setLatitude(Double.parseDouble(lat));
-        node.setLongitude(Double.parseDouble(lng));
-        finder.addNode(district, node);
+    public String addNode(@RequestParam String pointStr) {
+        try {
+            WKTReader reader = new WKTReader();
+            Node node = new NodeImpl();
+            node.setName(Utils.randomizeName());
+            node.setNricNo(Utils.randomizeNricNo());
+            node.setPhone(Utils.randomizePhone());
+            node.setInclinationType(InclinationType.BLUE);
+            node.setLocation((Point) reader.read(pointStr));
+            finder.addNode(node);
+        } catch (ParseException e) {
+        }
         return "success";
     }
 }

@@ -23,7 +23,7 @@ import java.util.Properties;
  * @since 6/29/13
  */
 @Configuration
-@ComponentScan({"net.canang.populi.core", "net.canang.populi.biz", "net.canang.populi.web.controller"})
+@ComponentScan({"net.canang.populi.core", "net.canang.populi.biz", "net.canang.populi.web"})
 @PropertySource("classpath:app.properties")
 @EnableWebMvc
 @EnableTransactionManagement
@@ -49,7 +49,7 @@ public class PopuliWebConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        properties.put("hibernate.dialect", "org.hibernate.spatial.dialect.postgis.PostgisDialect");
         properties.put("hibernate.show_sql", "false");
         properties.put("hibernate.hbm2ddl.auto", "update");
         properties.put("hibernate.format_sql", "false");

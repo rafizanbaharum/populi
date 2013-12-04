@@ -1,5 +1,7 @@
 package net.canang.populi.core.model;
 
+import com.vividsolutions.jts.geom.Polygon;
+
 import java.util.List;
 
 /**
@@ -32,9 +34,9 @@ public interface Turf {
     /**
      * @return
      */
-    District getDistrict();
+    Polygon getBound();
 
-    void setDistrict(District district);
+    void setBound(Polygon bound);
 
     /**
      * @return
@@ -49,5 +51,11 @@ public interface Turf {
     List<Volunteer> getVolunteers();
 
     void setVolunteers(List<Volunteer> volunteers);
+
+
+    // transient
+    Integer getHeadCount();
+
+    void setHeadCount(Integer headCount);
 
 }

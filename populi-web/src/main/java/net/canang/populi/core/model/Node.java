@@ -1,7 +1,6 @@
 package net.canang.populi.core.model;
 
 
-import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
 
 import java.util.List;
@@ -11,9 +10,6 @@ import java.util.List;
  * @since 6/28/13
  */
 public interface Node {
-
-    public static String FIELD = "location";
-    public static String STATUS = "status";
 
     /**
      * @return
@@ -29,6 +25,12 @@ public interface Node {
 
     void setName(String name);
 
+    /**
+     * @return
+     */
+    String getPhone();
+
+    void setPhone(String phone);
 
     /**
      * @return
@@ -54,30 +56,9 @@ public interface Node {
     /**
      * @return
      */
-    Double getLatitude();
-
-    void setLatitude(Double latitude);
-
-    /**
-     * @return
-     */
-    Double getLongitude();
-
-    void setLongitude(Double longitude);
-
-    /**
-     * @return
-     */
     InclinationType getInclinationType();
 
     void setInclinationType(InclinationType inclinationType);
-
-    /**
-     * @return
-     */
-    District getDistrict();
-
-    void setDistrict(District district);
 
     /**
      * @return

@@ -1,8 +1,9 @@
 package net.canang.populi.biz;
 
 import net.canang.populi.core.model.District;
-import net.canang.populi.core.model.DistrictPoint;
+import net.canang.populi.core.model.Event;
 import net.canang.populi.core.model.Node;
+import net.canang.populi.core.model.Turf;
 
 import java.util.List;
 
@@ -14,16 +15,27 @@ public interface BizFinder {
 
     District findDistrictById(Long id);
 
+    Turf findTurfById(Long id);
+
     List<District> findDistricts();
 
-    List<DistrictPoint> findDistrictPoints(District district);
+    List<Turf> findTurfs();
 
-    List<Node> findAround(Double radius, Double myLat, Double myLon);
+    List<Turf> findTurfsWithinDistrict(District district);
 
-    List<Node> findNodesByDistrict(District district);
+    List<Node> findNodesWithinDistrict(District district);
 
-    void addNode(District district, Node Node);
+    List<Node> findNodesWithinTurf(Turf turf);
 
-    void addDistrictPoint(District district, DistrictPoint point);
+    List<Event> findEventsWithinDistrict(District district);
 
+    List<Event> findEventsWithinTurf(Turf turf);
+
+    void addDistrict(District district);
+
+    void addTurf(Turf turf);
+
+    void addNode(Node Node);
+
+    void addEvent(Event event);
 }

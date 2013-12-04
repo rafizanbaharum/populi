@@ -1,6 +1,15 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
+
 <head>
+    <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap-theme.min.css">
+    <script src="/resources/js/bootstrap.min.js"></script>
+
     <style>
         #map-canvas img {
             max-width: none;
@@ -14,11 +23,9 @@
             src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 
     <script type="text/javascript">
-        var districtId = ${request}
+        var turfId = ${turf.getId()};
         var map;
-        var marker;
         var heatmap;
-        var polyline;
         var center = new google.maps.LatLng(1.5243, 103.64988);
         var data = new google.maps.MVCArray();
 
@@ -27,37 +34,29 @@
         function initialize() {
             var mapOptions = {
                 center: center,
-                zoom: 14,
+                zoom: 13,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-
-            var markerOptions = {
-                position: center,
-                draggable:true,
-                map:map
-            };
-            marker = new google.maps.Marker(markerOptions);
-
+            addTurf();
             addNodes();
-            addPolylines();
-            google.maps.event.addListener(marker, 'click', function() {
-                addChart(this);
-            });
         }
 
-        function addPolylines() {
-            var polyOptions = {
-                strokeColor: '#000000',
-                strokeOpacity: 1.0,
-                strokeWeight: 3
-            };
-            poly = new google.maps.Polyline(polyOptions);
-            poly.setMap(map);
-
-            $.getJSON('/district/find?id=' + districtId, function(points) {
-                for (var i = 0; i < points.length; i++) {
-                    var latlng = new google.maps.LatLng(points[i].latitude, points[i].longitude);
+        function addTurf() {
+            $.getJSON('/turf/findTurf?id=' + turfId, function(turf) {
+                var polyOptions = {
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: '#FF0000',
+                    fillOpacity: 0.08,
+                    indexID:turf.id,
+                    map:map
+                };
+                var poly = new google.maps.Polygon(polyOptions);
+                var bounds = turf.bounds;
+                for (var j = 0; j < bounds.length; j++) {
+                    var latlng = new google.maps.LatLng(bounds[j].x, bounds[j].y);
                     poly.getPath().push(latlng);
                 }
             });
@@ -84,50 +83,49 @@
                     'rgba(63, 0, 91, 1)',
                     'rgba(127, 0, 63, 1)',
                     'rgba(191, 0, 31, 1)',
-                    'rgba(255, 0, 0, 1)'                ]
+                    'rgba(255, 0, 0, 1)'
+                ]
             });
 
-            $.getJSON('/node/findNodesWithinDistrict?districtId=' + districtId, function(nodes) {
+            $.getJSON('/node/findNodesWithinTurf?turfId=' + turfId, function(nodes) {
                 for (var i = 0; i < nodes.length; i++) {
-                    var latlng = new google.maps.LatLng(nodes[i].latitude, nodes[i].longitude);
+                    var node = nodes[i];
+                    latlng = new google.maps.LatLng(node.x, node.y);
                     data.push(latlng);
                 }
             });
         }
 
-        function addChart(marker) {
-            // Create the data table.
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Kecenderungan');
-            data.addColumn('number', 'Bilangan');
-            data.addRows([
-                ['Biru', 9132],
-                ['Merah', 1121],
-                ['Jingga', 1121],
-                ['Hijau', 113],
-                ['Ungu', 231]
-            ]);
-
-            // Set chart options
-            var options = {'title':'Kecenderungan Kawasan',
-                'width':250,
-                'height':100};
-
-            var node = document.createElement('div');
-            var infoWindow = new google.maps.InfoWindow();
-            var chart = new google.visualization.PieChart(node);
-
-            chart.draw(data, options);
-            infoWindow.setContent(node);
-            infoWindow.open(marker.getMap(), marker);
-        }
-
         google.maps.event.addDomListener(window, 'load', initialize);
-
     </script>
 </head>
 <body>
-<div id="map-canvas" style="width:100%; height:59em"/>
+<div id="map-canvas" style="width:100%; height:20em"></div>
+<div id="data" style="width:100%">
+    <table class="table table-hover" id="sample-table-1">
+        <thead>
+        <tr>
+            <th class="center">#</th>
+            <th>Name</th>
+            <th>IC</th>
+            <th>Phone</th>
+            <th>Inclination</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="node" items="${nodes}" varStatus="idx">
+            <tr>
+                <td>${idx.count}</td>
+                <td>${node.name}</td>
+                <td>${node.nricNo}</td>
+                <td>${node.phone}</td>
+                <td>${node.inclinationType}</td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
 

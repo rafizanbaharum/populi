@@ -1,6 +1,8 @@
 package net.canang.populi.core.model;
 
+import com.vividsolutions.jts.geom.Polygon;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Indexed;
 
@@ -30,9 +32,9 @@ public class TurfImpl implements Turf, Serializable {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @ManyToOne(targetEntity = DistrictImpl.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "DISTRICT_ID")
-    private District district;
+
+    @Type(type = "org.hibernate.spatial.GeometryType")
+    private Polygon bound;
 
     @ManyToOne(targetEntity = NodeImpl.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "NODE_ID")
@@ -41,6 +43,9 @@ public class TurfImpl implements Turf, Serializable {
     @JsonIgnore
     @OneToMany(targetEntity = VolunteerImpl.class, mappedBy = "turf")
     private List<Volunteer> volunteers;
+
+    @Transient
+    private Integer headCount;
 
     public Long getId() {
         return id;
@@ -66,12 +71,12 @@ public class TurfImpl implements Turf, Serializable {
         this.code = code;
     }
 
-    public District getDistrict() {
-        return district;
+    public Polygon getBound() {
+        return bound;
     }
 
-    public void setDistrict(District district) {
-        this.district = district;
+    public void setBound(Polygon bound) {
+        this.bound = bound;
     }
 
     public Node getOwner() {
@@ -88,5 +93,13 @@ public class TurfImpl implements Turf, Serializable {
 
     public void setVolunteers(List<Volunteer> volunteers) {
         this.volunteers = volunteers;
+    }
+
+    public Integer getHeadCount() {
+        return headCount;
+    }
+
+    public void setHeadCount(Integer headCount) {
+        this.headCount = headCount;
     }
 }

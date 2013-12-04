@@ -31,16 +31,14 @@ public class EventImpl implements Event {
     @Column(name = "NAME")
     private String name;
 
+    @Column(name = "HEAD_COUNT")
+    private Integer headCount;
+
     @Column(name = "DESCRIPTION")
     private String description;
 
     @Type(type = "org.hibernate.spatial.GeometryType")
     private Point location;
-
-    @JsonIgnore
-    @ManyToOne(targetEntity = DistrictImpl.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "DISTRICT_ID")
-    private District district;
 
     @JsonIgnore
     @OneToMany(targetEntity = AttendeeImpl.class, mappedBy = "event")
@@ -70,6 +68,14 @@ public class EventImpl implements Event {
         this.name = name;
     }
 
+    public Integer getHeadCount() {
+        return headCount;
+    }
+
+    public void setHeadCount(Integer headCount) {
+        this.headCount = headCount;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -78,20 +84,12 @@ public class EventImpl implements Event {
         this.description = description;
     }
 
-    public District getDistrict() {
-        return district;
-    }
-
     public Point getLocation() {
         return location;
     }
 
     public void setLocation(Point location) {
         this.location = location;
-    }
-
-    public void setDistrict(District district) {
-        this.district = district;
     }
 
     public List<Attendee> getAttendees() {

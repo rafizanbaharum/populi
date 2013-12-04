@@ -1,9 +1,6 @@
 package net.canang.populi.core.dao;
 
-import net.canang.populi.core.model.District;
-import net.canang.populi.core.model.DistrictImpl;
-import net.canang.populi.core.model.DistrictPoint;
-import net.canang.populi.core.model.Node;
+import net.canang.populi.core.model.*;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -38,19 +35,38 @@ public class DistrictDaoImpl implements DistrictDao {
     }
 
     @Override
-    public List<DistrictPoint> findPoints(District district) {
+    public List<Node> findNodesWithin(District district) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select i from DistrictPoint i where i.district = :district");
-        query.setEntity("district", district);
-        return (List<DistrictPoint>) query.list();
+        Query query = session.createQuery("select i from Node i where within(i.location, '" + district.getBound().toString() + "') = true"); // TODO: set param
+        return (List<Node>) query.list();
     }
 
     @Override
-    public List<Node> findNodes(District district) {
+    public List<Node> findNodesNotWithin(District district) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select i from Node i where i.district = :district");
-        query.setEntity("district", district);
+        Query query = session.createQuery("select i from Node i where within(i.location, '" + district.getBound().toString() + "') = false"); // TODO: set param
         return (List<Node>) query.list();
+    }
+
+    @Override
+    public List<Turf> findTurfsWithin(District district) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select i from Turf i where within(i.bound, '" + district.getBound().toString() + "') = true"); // TODO: set param
+        return (List<Turf>) query.list();
+    }
+
+    @Override
+    public List<Event> findEventsWithin(District district) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select i from Event i where within(i.location, '" + district.getBound().toString() + "') = true"); // TODO: set param
+        return (List<Event>) query.list();
+    }
+
+    @Override
+    public Integer countNodesWithin(District district) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select count(i) from Node i where within(i.location, '" + district.getBound().toString() + "') = true"); // TODO: set param
+        return ((Long) query.uniqueResult()).intValue();
     }
 
     @Override
@@ -68,16 +84,5 @@ public class DistrictDaoImpl implements DistrictDao {
     @Override
     public void remove(District issue) {
         // TODO:
-    }
-
-    @Override
-    public void addPoint(District district, DistrictPoint districtPoint) {
-        districtPoint.setDistrict(district);
-        sessionFactory.getCurrentSession().save(districtPoint);
-    }
-
-    @Override
-    public void removePoint(District district, DistrictPoint districtPoint) {
-        sessionFactory.getCurrentSession().delete(districtPoint);
     }
 }

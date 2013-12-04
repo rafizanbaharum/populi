@@ -1,8 +1,9 @@
 package net.canang.populi.core.dao;
 
 import net.canang.populi.core.model.District;
-import net.canang.populi.core.model.DistrictPoint;
+import net.canang.populi.core.model.Event;
 import net.canang.populi.core.model.Node;
+import net.canang.populi.core.model.Turf;
 
 import java.util.List;
 
@@ -16,18 +17,19 @@ public interface DistrictDao {
 
     List<District> find();
 
-    List<DistrictPoint> findPoints(District district);
+    List<Node> findNodesWithin(District district);
 
-    List<Node> findNodes(District district);
+    List<Node> findNodesNotWithin(District district);
+
+    List<Turf> findTurfsWithin(District district);
+
+    List<Event> findEventsWithin(District district);
+
+    Integer countNodesWithin(District district);
 
     void save(District district);
 
     void update(District district);
 
     void remove(District district);
-
-    void addPoint(District district, DistrictPoint districtPoint);
-
-    void removePoint(District district, DistrictPoint districtPoint);
-
 }

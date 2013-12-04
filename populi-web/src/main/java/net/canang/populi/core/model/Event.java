@@ -1,5 +1,7 @@
 package net.canang.populi.core.model;
 
+import com.vividsolutions.jts.geom.Point;
+
 import java.util.List;
 
 /**
@@ -36,16 +38,21 @@ public interface Event {
 
     void setDescription(String description);
 
+    /**
+     * @return
+     */
+    Integer getHeadCount();
+
+    void setHeadCount(Integer headCount);
 
     /**
      * @return
      */
-    District getDistrict();
+    Point getLocation();
 
-    void setDistrict(District district);
+    void setLocation(Point point);
 
     /**
-     *
      * @return
      */
     List<Attendee> getAttendees();

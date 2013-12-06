@@ -69,8 +69,10 @@ public class TurfController {
     @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
     public String view(@PathVariable Long id, ModelMap model) {
         Turf turf = finder.findTurfById(id);
+        District district = finder.findDistrictOuterTurf(turf);
         List<Node> nodes = finder.findNodesWithinTurf(turf);
         model.put("turf", converter.convert(turf));
+        model.put("district", converter.convert(district));
         model.put("nodes", converter.convertNodes(nodes));
         return "turf_view";
     }
@@ -93,7 +95,9 @@ public class TurfController {
 
 
     @RequestMapping(value = "/draw", method = RequestMethod.GET)
-    public String draw(ModelMap model) {
+    public String draw(@RequestParam Long districtId, ModelMap model) {
+        District district = finder.findDistrictById(districtId);
+        model.put("district", converter.convert(district));
         return "turf_draw";
     }
 

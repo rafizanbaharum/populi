@@ -30,6 +30,8 @@ https://developers.google.com/maps/documentation/javascript/examples/polygon-arr
 https://developers.google.com/maps/documentation/javascript/reference?csw=1#InfoWindowOptions
 
 
+http://stackoverflow.com/questions/12596659/infowindow-with-buttons
+
 http://jsfiddle.net/A96Hu/  - drawing with form
 
 

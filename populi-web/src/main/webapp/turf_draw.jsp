@@ -14,17 +14,45 @@
             src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 
     <script type="text/javascript">
+        var districtId = ${district.id};
         var map;
         var marker;
         var center = new google.maps.LatLng(1.5243, 103.64988);
+
         function initialize() {
             var mapOptions = {
                 center: center,
-                zoom: 14,
+                zoom: 13,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+            addDrawingManager();
+            addDistrict()
+        }
 
+        function addDistrict() {
+            $.getJSON('/district/findDistrict?id=' + districtId, function(district) {
+                var polyOptions = {
+                    strokeColor: '#0000FF',
+                    strokeOpacity: 0.5,
+                    strokeWeight: 2,
+                    fillColor: '#0000FF',
+                    fillOpacity: 0.2,
+                    indexID:district.id,
+                    map:map
+                };
+                var poly = new google.maps.Polygon(polyOptions);
+                var bounds = district.bounds;
+                for (var j = 0; j < bounds.length; j++) {
+                    var latlng = new google.maps.LatLng(bounds[j].x, bounds[j].y);
+                    poly.getPath().push(latlng);
+                }
+                var center = new google.maps.LatLng(district.center.x, district.center.y);
+                map.panTo(center);
+            });
+        }
+
+        function addDrawingManager() {
             var polyOptions = {
                 strokeWeight: 0,
                 fillOpacity: 0.45,

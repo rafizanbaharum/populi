@@ -13,6 +13,7 @@ public class TurfModel {
     private String code;
     private String name;
     private int headCount;
+    private CoordinateModel center;
     private List<CoordinateModel> bounds = new ArrayList<CoordinateModel>();
 
     public TurfModel(Long id, String code, String name) {
@@ -44,6 +45,14 @@ public class TurfModel {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public CoordinateModel getCenter() {
+        return center;
+    }
+
+    public void setCenter(CoordinateModel center) {
+        this.center = center;
     }
 
     public int getHeadCount() {

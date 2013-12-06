@@ -17,6 +17,8 @@ public interface TurfDao {
 
     List<Turf> find();
 
+    District findDistrictOuter(Turf turf);
+
     List<Node> findNodesWithin(Turf turf);
 
     List<Node> findNodesNotWithin(Turf turf);

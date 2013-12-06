@@ -3,6 +3,7 @@ package net.canang.populi.core.dao;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
+import net.canang.populi.core.model.District;
 import net.canang.populi.core.model.Turf;
 import net.canang.populi.core.model.TurfImpl;
 import org.hibernate.SessionFactory;
@@ -70,5 +71,15 @@ public class TurfDaoTest {
         turf6.setDescription("Turf 6");
         turf6.setBound((Polygon) reader.read("POLYGON ((1.5037526572173996 103.69359970092773,1.5060692864731058 103.69857788085938,1.5062408885422744 103.70450019836426,1.5076137046089744 103.70990753173828,1.5153357788309958 103.7215805053711,1.5188536035237756 103.72698783874512,1.511732147611679 103.73239517211914,1.5099303297580502 103.73394012451172,1.5056402812410763 103.73316764831543,1.502208236347297 103.73514175415039,1.4997200004273856 103.73565673828125,1.49474352010496 103.7384033203125,1.491311458136411 103.74054908752441,1.489423821771546 103.74003410339355,1.4910540532728571 103.73488426208496,1.4892522183854369 103.72836112976074,1.486506562391503 103.72063636779785,1.4863349587784547 103.71703147888184,1.495043825272162 103.7045431137085,1.4972746623704027 103.70123863220215,1.5010928205954108 103.69578838348389,1.5031091486542778 103.69351387023926,1.5037526572173996 103.69359970092773)) draw:63"));
         turfDao.save(turf6);
+    }
+
+
+    @Test
+    public void outerDistrict() throws ParseException {
+        Turf turf = turfDao.findById(4L);
+        District district = turfDao.findDistrictOuter(turf);
+        log.debug("district: " + district.getBound());
+        log.debug("district: " + district.getDescription());
+        log.debug("district: " + district.getCode());
     }
 }

@@ -24,6 +24,7 @@
 
     <script type="text/javascript">
         var turfId = ${turf.getId()};
+        var districtId = ${district.getId()};
         var map;
         var heatmap;
         var center = new google.maps.LatLng(1.5243, 103.64988);
@@ -38,6 +39,7 @@
             };
             map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
+            addDistrict();
             addNodes();
             addTurf();
         }
@@ -59,7 +61,32 @@
                     var latlng = new google.maps.LatLng(bounds[j].x, bounds[j].y);
                     poly.getPath().push(latlng);
                 }
+                var center = new google.maps.LatLng(turf.center.x, turf.center.y);
+                map.panTo(center);
                 attachInfoWindow(poly);
+            });
+        }
+
+        function addDistrict() {
+            $.getJSON('/district/findDistrict?id=' + districtId, function(district) {
+                var polyOptions = {
+                    strokeColor: '#0000FF',
+                    strokeOpacity: 0.5,
+                    strokeWeight: 2,
+                    fillColor: '#0000FF',
+                    fillOpacity: 0.05,
+                    indexID:district.id,
+                    map:map
+                };
+                var poly = new google.maps.Polygon(polyOptions);
+                var bounds = district.bounds;
+                for (var j = 0; j < bounds.length; j++) {
+                    var latlng = new google.maps.LatLng(bounds[j].x, bounds[j].y);
+                    poly.getPath().push(latlng);
+                }
+                addTurfs(district.id);
+                var center = new google.maps.LatLng(district.center.x, district.center.y);
+                map.panTo(center);
             });
         }
 
@@ -136,6 +163,7 @@
 </head>
 <body>
 <h3>Turf View: ${turf.name} (${turf.headCount})</h3>
+
 <div id="map-canvas" style="width:100%; height:20em"></div>
 <div id="data" style="width:100%">
     <table class="table table-hover" id="sample-table-1">

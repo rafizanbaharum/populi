@@ -12,6 +12,7 @@ public class DistrictModel {
     private Long id;
     private String name;
     private int headCount;
+    private CoordinateModel center;
     private List<CoordinateModel> bounds = new ArrayList<CoordinateModel>();
 
     public DistrictModel(Long id, String name) {
@@ -41,6 +42,14 @@ public class DistrictModel {
 
     public void setHeadCount(int headCount) {
         this.headCount = headCount;
+    }
+
+    public CoordinateModel getCenter() {
+        return center;
+    }
+
+    public void setCenter(CoordinateModel center) {
+        this.center = center;
     }
 
     public List<CoordinateModel> getBounds() {

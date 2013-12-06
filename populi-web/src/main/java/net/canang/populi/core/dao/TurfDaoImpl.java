@@ -1,7 +1,6 @@
 package net.canang.populi.core.dao;
 
 import net.canang.populi.core.model.*;
-import net.canang.populi.core.model.Turf;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,7 +36,17 @@ public class TurfDaoImpl implements TurfDao {
     }
 
     @Override
+    public District findDistrictOuter(Turf turf) {
+        if (null == turf.getBound()) return null;
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select i from District i where within('" + turf.getBound().toString() + "', i.bound) = true"); // TODO: set param
+        return (District) query.uniqueResult();
+    }
+
+
+    @Override
     public List<Node> findNodesWithin(Turf turf) {
+        if (null == turf.getBound()) return Collections.EMPTY_LIST;
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select i from Node i where within(i.location, '" + turf.getBound().toString() + "') = true"); // TODO: set param
         return (List<Node>) query.list();
@@ -44,6 +54,7 @@ public class TurfDaoImpl implements TurfDao {
 
     @Override
     public List<Node> findNodesNotWithin(Turf turf) {
+        if (null == turf.getBound()) return Collections.EMPTY_LIST;
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select i from Node i where within(i.location, '" + turf.getBound().toString() + "') = false"); // TODO: set param
         return (List<Node>) query.list();
@@ -51,6 +62,7 @@ public class TurfDaoImpl implements TurfDao {
 
     @Override
     public List<Turf> findTurfsWithin(District district) {
+        if (null == district.getBound()) return Collections.EMPTY_LIST;
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select i from Turf i where contains(i.bound, '" + district.getBound().toString() + "') = true"); // TODO: set param
         return (List<Turf>) query.list();
@@ -58,6 +70,7 @@ public class TurfDaoImpl implements TurfDao {
 
     @Override
     public List<Event> findEventsWithin(Turf turf) {
+        if (null == turf.getBound()) return Collections.EMPTY_LIST;
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select i from Event i where contains(i.location, '" + turf.getBound().toString() + "') = true"); // TODO: set param
         return (List<Event>) query.list();
@@ -65,6 +78,7 @@ public class TurfDaoImpl implements TurfDao {
 
     @Override
     public Integer countNodesWithin(Turf turf) {
+        if (null == turf.getBound()) return 0;
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select count(i) from Node i where within(i.location, '" + turf.getBound().toString() + "') = true"); // TODO: set param
         return ((Long) query.uniqueResult()).intValue();

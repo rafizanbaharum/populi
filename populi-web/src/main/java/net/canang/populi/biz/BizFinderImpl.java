@@ -83,6 +83,11 @@ public class BizFinderImpl implements BizFinder {
     }
 
     @Override
+    public District findDistrictOuterTurf(Turf turf) {
+        return decorate(turfDao.findDistrictOuter(turf));
+    }
+
+    @Override
     public void addDistrict(District district) {
         districtDao.save(district);
         sessionFactory.getCurrentSession().flush();

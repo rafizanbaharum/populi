@@ -71,8 +71,11 @@ public class DistrictDaoTest {
 
     @Test
     public void findTurfWithin() {
-        District district = districtDao.findById(26L);
+        District district = districtDao.findById(25L);
         List<Turf> turfs = districtDao.findTurfsWithin(district);
         log.debug("turf size: " + turfs.size());
+        for (Turf turf : turfs) {
+            log.debug("turf id: " + turf.getId());
+        }
     }
 }

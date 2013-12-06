@@ -7,9 +7,10 @@
 <head>
     <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.min.css">
-    <script src="/resources/js/bootstrap.min.js"></script>
     <script type="text/javascript"
             src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="/resources/js/bootstrap.min.js"></script>
+
     <style>
         #map-canvas img {
             max-width: none;
@@ -79,7 +80,7 @@
                     path: google.maps.SymbolPath.CIRCLE,
                     fillColor: '#0000FF',
                     fillOpacity: .2,
-                    scale: (count/2000),
+                    scale: (count / 2000),
                     strokeColor: '#0000FF',
                     strokeWeight: .5
                 };
@@ -91,6 +92,7 @@
 </head>
 <body>
 <h3>District View: ${district.name} (${district.headCount})</h3>
+
 <div id="map-canvas" style="width:100%; height:25em"></div>
 <div id="data" style="width:100%">
     <table class="table table-hover" id="sample-table-1">

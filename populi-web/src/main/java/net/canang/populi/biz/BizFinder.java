@@ -31,6 +31,8 @@ public interface BizFinder {
 
     List<Event> findEventsWithinTurf(Turf turf);
 
+    District findDistrictOuterTurf(Turf turf);
+
     void addDistrict(District district);
 
     void addTurf(Turf turf);
@@ -38,4 +40,5 @@ public interface BizFinder {
     void addNode(Node Node);
 
     void addEvent(Event event);
+
 }

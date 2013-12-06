@@ -39,7 +39,9 @@
             };
             map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
             addDistrict();
+            panToCenter()
             addTurfs();
+
         }
 
         function addDistrict() {
@@ -60,6 +62,8 @@
                     poly.getPath().push(latlng);
                 }
                 addTurfs(district.id);
+                var center = new google.maps.LatLng(district.center.x, district.center.y);
+                map.panTo(center);
             });
         }
 
@@ -151,6 +155,7 @@
 
 <div id="map-canvas" style="width:100%; height:20em"></div>
 <div id="data" style="width:100%">
+    <a href="/turf/draw?districtId=${district.id}">Add Turf</a>
     <table class="table table-hover" id="sample-table-1">
         <thead>
         <tr>

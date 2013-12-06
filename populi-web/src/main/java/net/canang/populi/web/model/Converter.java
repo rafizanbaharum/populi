@@ -2,6 +2,7 @@ package net.canang.populi.web.model;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
 import net.canang.populi.core.model.District;
 import net.canang.populi.core.model.Event;
 import net.canang.populi.core.model.Node;
@@ -45,9 +46,13 @@ public class Converter {
     public TurfModel convert(Turf turf) {
         TurfModel turfModel = new TurfModel(turf.getId(), turf.getCode(), turf.getDescription());
         turfModel.setHeadCount(turf.getHeadCount());
-        Coordinate[] coordinates = turf.getBound().getCoordinates();
-        for (Coordinate coordinate : coordinates) {
-            turfModel.addBound(new CoordinateModel(coordinate.x, coordinate.y));
+        Polygon bound = turf.getBound();
+        if (null != bound) {
+            turfModel.setCenter(convert(bound.getCentroid().getCoordinate()));
+            Coordinate[] coordinates = bound.getCoordinates();
+            for (Coordinate coordinate : coordinates) {
+                turfModel.addBound(new CoordinateModel(coordinate.x, coordinate.y));
+            }
         }
         return turfModel;
     }
@@ -55,13 +60,16 @@ public class Converter {
     public DistrictModel convert(District district) {
         DistrictModel districtModel = new DistrictModel(district.getId(), district.getDescription());
         districtModel.setHeadCount(district.getHeadCount());
-        Coordinate[] coordinates = district.getBound().getCoordinates();
-        for (Coordinate coordinate : coordinates) {
-            districtModel.addBound(new CoordinateModel(coordinate.x, coordinate.y));
+        Polygon bound = district.getBound();
+        if (null != bound) {
+            districtModel.setCenter(convert(bound.getCentroid().getCoordinate()));
+            Coordinate[] coordinates = bound.getCoordinates();
+            for (Coordinate coordinate : coordinates) {
+                districtModel.addBound(new CoordinateModel(coordinate.x, coordinate.y));
+            }
         }
         return districtModel;
     }
-
 
     public List<DistrictModel> convertDistricts(List<District> districts) {
         List<DistrictModel> models = new ArrayList<DistrictModel>();
@@ -117,4 +125,8 @@ public class Converter {
         return eventModels;
     }
 
+    public CoordinateModel convert(Coordinate coordinate) {
+        return new CoordinateModel(coordinate.x, coordinate.y);
+
+    }
 }

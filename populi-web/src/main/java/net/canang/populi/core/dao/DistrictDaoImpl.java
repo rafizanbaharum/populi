@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,6 +37,7 @@ public class DistrictDaoImpl implements DistrictDao {
 
     @Override
     public List<Node> findNodesWithin(District district) {
+        if(null == district.getBound()) return Collections.EMPTY_LIST;
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select i from Node i where within(i.location, '" + district.getBound().toString() + "') = true"); // TODO: set param
         return (List<Node>) query.list();
@@ -43,6 +45,7 @@ public class DistrictDaoImpl implements DistrictDao {
 
     @Override
     public List<Node> findNodesNotWithin(District district) {
+        if(null == district.getBound()) return Collections.EMPTY_LIST;
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select i from Node i where within(i.location, '" + district.getBound().toString() + "') = false"); // TODO: set param
         return (List<Node>) query.list();
@@ -50,6 +53,7 @@ public class DistrictDaoImpl implements DistrictDao {
 
     @Override
     public List<Turf> findTurfsWithin(District district) {
+        if(null == district.getBound()) return Collections.EMPTY_LIST;
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select i from Turf i where within(i.bound, '" + district.getBound().toString() + "') = true"); // TODO: set param
         return (List<Turf>) query.list();
@@ -57,6 +61,7 @@ public class DistrictDaoImpl implements DistrictDao {
 
     @Override
     public List<Event> findEventsWithin(District district) {
+        if(null == district.getBound()) return Collections.EMPTY_LIST;
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select i from Event i where within(i.location, '" + district.getBound().toString() + "') = true"); // TODO: set param
         return (List<Event>) query.list();
@@ -64,6 +69,7 @@ public class DistrictDaoImpl implements DistrictDao {
 
     @Override
     public Integer countNodesWithin(District district) {
+        if(null == district.getBound()) return 0;
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select count(i) from Node i where within(i.location, '" + district.getBound().toString() + "') = true"); // TODO: set param
         return ((Long) query.uniqueResult()).intValue();

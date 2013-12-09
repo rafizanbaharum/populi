@@ -34,9 +34,17 @@ http://stackoverflow.com/questions/12596659/infowindow-with-buttons
 
 http://jsfiddle.net/A96Hu/  - drawing with form
 
+https://groups.google.com/forum/#!topic/Google-Maps-API/0AuGXinF19w
+
 
 walk list
 canvassing
 gotv
 volunteer
 data points
+
+
+SPRING DATA
+http://projects.spring.io/spring-data-neo4j/
+http://stackoverflow.com/questions/14147305/maven-issue-with-spring-data-neo4j
+https://blog.codecentric.de/en/2012/02/spring-data-neo4j/

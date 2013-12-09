@@ -17,6 +17,7 @@
         <spring-batch.version>2.2.1.RELEASE</spring-batch.version>
         <spring-web.version>3.2.3.RELEASE</spring-web.version>
         <spring-webmvc.version>3.2.3.RELEASE</spring-webmvc.version>
+        <spring-data.version>3.0.0M1</spring-data.version>
     </properties>
 
     <dependencies>
@@ -50,6 +51,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${springframework.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -130,6 +137,11 @@
             <version>${jackson.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-neo4j</artifactId>
+            <version>2.3.2.RELEASE</version>
+        </dependency>
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>4.1.9.Final</version>
@@ -154,7 +166,7 @@
             <artifactId>postgis-jdbc</artifactId>
             <version>1.5.2</version>
         </dependency>
-          <dependency>
+        <dependency>
             <groupId>com.vividsolutions</groupId>
             <artifactId>jts</artifactId>
             <version>1.12</version>
@@ -241,12 +253,17 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.5.6</version>
+            <version>1.7.2</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.5.6</version>
+            <version>1.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.5</version>
         </dependency>
         <dependency>
             <groupId>cglib</groupId>
@@ -381,6 +398,10 @@
             <url>http://repo.springsource.org/release</url>
         </repository>
         <repository>
+            <id>springsource-milestone</id>
+            <url>http://maven.springframework.org/milestone</url>
+        </repository>
+        <repository>
             <id>OSGEO GeoTools repo</id>
             <url>http://download.osgeo.org/webdav/geotools</url>
         </repository>
@@ -392,6 +413,11 @@
             <id>Maven HUB</id>
             <url>http://www.hibernatespatial.org/repository/</url>
         </repository>
+        <repository>
+            <id>Maven REPO</id>
+            <url>http://mvnrepository.com/artifact/</url>
+        </repository>
+
     </repositories>
 
     <reporting>

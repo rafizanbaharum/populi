@@ -2,6 +2,7 @@ package net.canang.populi.core.dao;
 
 import com.vividsolutions.jts.geom.Point;
 import net.canang.populi.core.model.Node;
+import net.canang.populi.core.model.NodeAttribute;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -53,6 +54,15 @@ public class NodeDaoImpl implements NodeDao {
         return (List<Node>) query.list();
     }
 
+    @Override
+    public List<NodeAttribute> findAttributes(Node node) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select i from NodeAttribute i where i.node = :node");
+        query.setEntity("node", node);
+        return (List<NodeAttribute>) query.list();
+    }
+
+
     public Integer count() {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select count(i) from Node i");
@@ -73,6 +83,18 @@ public class NodeDaoImpl implements NodeDao {
 
     @Override
     public void remove(Node Node) {
+        // TODO:
+
+    }
+
+    @Override
+    public void addAttribute(Node node, NodeAttribute attribute) {
+        attribute.setNode(node);
+        sessionFactory.getCurrentSession().save(attribute);
+    }
+
+    @Override
+    public void removeAttribute(Node node, NodeAttribute attribute) {
         // TODO:
 
     }

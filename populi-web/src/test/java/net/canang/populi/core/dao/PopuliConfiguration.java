@@ -2,18 +2,27 @@ package net.canang.populi.core.dao;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.neo4j.config.EnableNeo4jRepositories;
+import org.springframework.data.neo4j.support.Neo4jExceptionTranslator;
+import org.springframework.data.neo4j.support.Neo4jTemplate;
+import org.springframework.data.neo4j.support.mapping.Neo4jMappingContext;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -21,13 +30,15 @@ import java.util.Properties;
  * @since 6/29/13
  */
 @Configuration
-@ComponentScan({"net.canang.populi.core", "net.canang.populi.biz"})
+@ComponentScan({"net.canang.populi.core", "net.canang.populi.biz" })
 @PropertySource("classpath:app.properties")
 @EnableTransactionManagement
+@EnableNeo4jRepositories(basePackages = {"net.canang.populi.core.graph.node", "net.canang.populi.core.graph.dao" })
 public class PopuliConfiguration {
 
     @Autowired
     private Environment environment;
+
 
     @Bean
     public SessionFactory sessionFactory() {
@@ -82,4 +93,26 @@ public class PopuliConfiguration {
         dataSource.setMaxWait(5000);
         return dataSource;
     }
+
+    @Bean
+    GraphDatabaseService graphDatabase() {
+        Map<String, String> config = new HashMap<String, String>();
+        return new GraphDatabaseFactory().newEmbeddedDatabaseBuilder("C:/Users/ct1/Documents/Neo4j/populi.graphdb").setConfig(config).newGraphDatabase();
+    }
+
+    @Bean
+    public Neo4jTemplate neo4jTemplate() throws IOException {
+        return new Neo4jTemplate(graphDatabase());
+    }
+
+    @Bean
+    public Neo4jMappingContext neo4jMappingContext() {
+        return new Neo4jMappingContext();
+    }
+
+    @Bean
+    public Neo4jExceptionTranslator exceptionTranslator() {
+        return new Neo4jExceptionTranslator();
+    }
+
 }

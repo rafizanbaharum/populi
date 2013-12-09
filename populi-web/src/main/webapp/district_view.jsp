@@ -35,8 +35,31 @@
             };
             map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
+            addDistrict();
 //            addTurfs();
             addEvents();
+        }
+
+        function addDistrict() {
+            $.getJSON('/district/findDistrict?id=' + districtId, function(district) {
+                var polyOptions = {
+                    strokeColor: '#0000FF',
+                    strokeOpacity: 0.5,
+                    strokeWeight: 2,
+                    fillColor: '#0000FF',
+                    fillOpacity: 0.01,
+                    indexID:district.id,
+                    map:map
+                };
+                var poly = new google.maps.Polygon(polyOptions);
+                var bounds = district.bounds;
+                for (var j = 0; j < bounds.length; j++) {
+                    var latlng = new google.maps.LatLng(bounds[j].x, bounds[j].y);
+                    poly.getPath().push(latlng);
+                }
+                var center = new google.maps.LatLng(district.center.x, district.center.y);
+                map.panTo(center);
+            });
         }
 
         function addTurfs() {

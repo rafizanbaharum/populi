@@ -3,6 +3,7 @@ package net.canang.populi.core.dao;
 
 import com.vividsolutions.jts.geom.Point;
 import net.canang.populi.core.model.Node;
+import net.canang.populi.core.model.NodeAttribute;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ public interface NodeDao {
 
     List<Node> findWithin(String filter);
 
+    List<NodeAttribute> findAttributes(Node node);
+
     Integer count();
 
     void save(Node Node);
@@ -27,4 +30,8 @@ public interface NodeDao {
     void update(Node Node);
 
     void remove(Node Node);
+
+    void addAttribute(Node node, NodeAttribute attribute);
+
+    void removeAttribute(Node node, NodeAttribute attribute);
 }

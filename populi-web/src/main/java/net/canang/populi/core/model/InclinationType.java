@@ -7,7 +7,7 @@ package net.canang.populi.core.model;
 public enum InclinationType {
 
     BLUE(0), // 0
-    BROWN(1),       // 1
+    GREEN(1),       // 1
     RED(2);   // 2
 
     private int code;

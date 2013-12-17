@@ -23,8 +23,8 @@
     </script>
 
     <script type="text/javascript">
-        var turfId = ${turf.getId()};
-        var districtId = ${district.getId()};
+        var turfId = ${turf.id};
+        var districtId = ${district.id};
         var map;
         var heatmap;
         var center = new google.maps.LatLng(1.5243, 103.64988);

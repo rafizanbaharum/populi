@@ -26,14 +26,12 @@
         var map;
         var marker;
         var heatmap;
-        var center = new google.maps.LatLng(1.5243, 103.64988);
         var data = new google.maps.MVCArray();
 
         google.load("visualization", "1", {packages:["corechart"]});
 
         function initialize() {
             var mapOptions = {
-                center: center,
                 zoom: 11,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };

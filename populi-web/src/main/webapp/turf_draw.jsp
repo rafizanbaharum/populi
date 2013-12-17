@@ -17,11 +17,9 @@
         var districtId = ${district.id};
         var map;
         var marker;
-        var center = new google.maps.LatLng(1.5243, 103.64988);
 
         function initialize() {
             var mapOptions = {
-                center: center,
                 zoom: 13,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };

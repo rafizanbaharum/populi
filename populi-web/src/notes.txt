@@ -48,3 +48,7 @@ SPRING DATA
 http://projects.spring.io/spring-data-neo4j/
 http://stackoverflow.com/questions/14147305/maven-issue-with-spring-data-neo4j
 https://blog.codecentric.de/en/2012/02/spring-data-neo4j/
+
+NEO4j
+rels:87
+START n=node(*) RETURN n;

@@ -10,6 +10,7 @@ public class NodeModel {
     private String name;
     private String nricNo;
     private int inclinationType;
+    private String inclinationTypeString;
     private String phone;
     private double x;
     private double y;
@@ -78,5 +79,13 @@ public class NodeModel {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getInclinationTypeString() {
+        return inclinationTypeString;
+    }
+
+    public void setInclinationTypeString(String inclinationTypeString) {
+        this.inclinationTypeString = inclinationTypeString;
     }
 }

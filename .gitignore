@@ -2,4 +2,7 @@ target/
 */.idea/**
 */*.iml
 .idea/**
+**/.idea/**
 indexes/**
+**/build/**
+**/.gradle/**

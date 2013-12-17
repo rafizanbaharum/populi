@@ -19,7 +19,7 @@ import java.util.List;
  * @since 6/29/13
  */
 @Transactional
-@Repository("NodeDao")
+@Repository("nodeDao")
 public class NodeDaoImpl implements NodeDao {
 
     private Logger log = LoggerFactory.getLogger(NodeDaoImpl.class);

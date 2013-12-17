@@ -184,7 +184,7 @@
                 <td>${node.name}</td>
                 <td>${node.nricNo}</td>
                 <td>${node.phone}</td>
-                <td>${node.inclinationType}</td>
+                <td>${node.inclinationTypeString}</td>
             </tr>
         </c:forEach>
         </tbody>

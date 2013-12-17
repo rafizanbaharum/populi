@@ -21,7 +21,7 @@ import java.util.List;
 public class Converter {
 
     public NodeModel convert(Node node, Point location) {
-        return new NodeModel(
+        NodeModel nodeModel = new NodeModel(
                 node.getId(),
                 node.getName(),
                 node.getNricNo(),
@@ -29,6 +29,8 @@ public class Converter {
                 node.getInclinationType().ordinal(),
                 location.getCoordinate().x,
                 location.getCoordinate().y);
+        nodeModel.setInclinationTypeString(node.getInclinationType().name());
+        return nodeModel;
     }
 
     public EventModel convert(Event event, Point location) {

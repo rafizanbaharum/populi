@@ -64,16 +64,7 @@ public class NodeController {
         List<Node> nodes = finder.findNodesWithinDistrict(district);
         List<NodeModel> models = new ArrayList<NodeModel>();
         for (Node node : nodes) {
-            Point location = node.getLocation();
-            NodeModel model = new NodeModel(
-                    node.getId(),
-                    node.getName(),
-                    node.getNricNo(),
-                    node.getPhone(),
-                    node.getInclinationType().ordinal(),
-                    location.getCoordinate().x,
-                    location.getCoordinate().y);
-            models.add(model);
+            models.add(converter.convert(node, node.getLocation()));
         }
         log.debug("result: " + nodes.size());
         return models;

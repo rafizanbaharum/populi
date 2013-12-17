@@ -19,6 +19,7 @@ public class PopuliWebSecurityConfiguration extends WebSecurityConfigurerAdapter
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
+                .antMatchers("/resources/**")
                 .antMatchers("/*");
     }
 

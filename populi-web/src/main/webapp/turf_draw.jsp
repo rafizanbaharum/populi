@@ -31,7 +31,7 @@
         }
 
         function addDistrict() {
-            $.getJSON('/district/findDistrict?id=' + districtId, function(district) {
+            $.getJSON('${pageContext.request.contextPath}/district/findDistrict?id=' + districtId, function(district) {
                 var polyOptions = {
                     strokeColor: '#0000FF',
                     strokeOpacity: 0.5,
@@ -97,7 +97,7 @@
         function sendData(polyStr) {
             $.ajax({
                 type: "GET",
-                url: '/turf/add',
+                url: '${pageContext.request.contextPath}/turf/add',
                 data: 'polyStr=' + polyStr,
                 success: function(data) {
                     alert(data);

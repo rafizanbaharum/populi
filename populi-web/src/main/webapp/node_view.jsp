@@ -55,7 +55,7 @@
             poly = new google.maps.Polyline(polyOptions);
             poly.setMap(map);
 
-            $.getJSON('/district/find?id=' + districtId, function(points) {
+            $.getJSON('${pageContext.request.contextPath}/district/find?id=' + districtId, function(points) {
                 for (var i = 0; i < points.length; i++) {
                     var latlng = new google.maps.LatLng(points[i].latitude, points[i].longitude);
                     poly.getPath().push(latlng);
@@ -87,7 +87,7 @@
                     'rgba(255, 0, 0, 1)'                ]
             });
 
-            $.getJSON('/node/findNodesWithinDistrict?districtId=' + districtId, function(nodes) {
+            $.getJSON('${pageContext.request.contextPath}/node/findNodesWithinDistrict?districtId=' + districtId, function(nodes) {
                 for (var i = 0; i < nodes.length; i++) {
                     var latlng = new google.maps.LatLng(nodes[i].latitude, nodes[i].longitude);
                     data.push(latlng);

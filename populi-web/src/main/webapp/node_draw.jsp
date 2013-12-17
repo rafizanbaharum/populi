@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/resources/css/bootstrap-theme.min.css">
-    <script src="/resources/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css">
+    <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
     <script type="text/javascript"
             src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <style>
@@ -58,7 +58,7 @@
         function sendData(pointStr) {
             $.ajax({
                 type: "GET",
-                url: '/node/add',
+                url: '${pageContext.request.contextPath}/node/add',
                 data: 'pointStr=' + pointStr,
                 success: function(data) {
 //                    alert(data);

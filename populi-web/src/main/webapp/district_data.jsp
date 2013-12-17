@@ -16,7 +16,7 @@
     <script type="text/javascript">
         var map;
         var center = new google.maps.LatLng(1.5243, 103.64988);
-        var postUrl = 'add';
+        var postUrl = '${pageContext.request.contextPath}/district/add';
         var districtId = 25; // JB
 
         function initialize() {

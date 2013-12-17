@@ -4,9 +4,9 @@
 
 <html>
 <head>
-    <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/resources/css/bootstrap-theme.min.css">
-    <script src="/resources/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css">
+    <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
     <script type="text/javascript"
             src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 
@@ -28,7 +28,7 @@
         <c:forEach var="district" items="${districts}" varStatus="idx">
             <tr>
                 <td>${idx.count}</td>
-                <td><a href="/district/navigate/${district.id}">${district.name}</a></td>
+                <td><a href="${pageContext.request.contextPath}/district/navigate/${district.id}">${district.name}</a></td>
                 <td>${district.headCount}</td>
             </tr>
         </c:forEach>

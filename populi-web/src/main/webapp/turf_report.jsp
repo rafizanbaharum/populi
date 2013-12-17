@@ -6,11 +6,11 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/resources/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css">
     <script type="text/javascript"
             src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script src="/resources/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 
     <style>
         #map-canvas img {
@@ -41,7 +41,7 @@
         }
 
         function addTurf() {
-            $.getJSON('/turf/findTurf?id=' + turfId, function(turf) {
+            $.getJSON('${pageContext.request.contextPath}/turf/findTurf?id=' + turfId, function(turf) {
                 var polyOptions = {
                     strokeColor: '#0000FF',
                     strokeOpacity: 0.8,
@@ -61,7 +61,7 @@
         }
 
         function addNodes() {
-            $.getJSON('/node/findNodesWithinTurf?turfId=' + turfId, function(nodes) {
+            $.getJSON('${pageContext.request.contextPath}/node/findNodesWithinTurf?turfId=' + turfId, function(nodes) {
                 for (var i = 0; i < nodes.length; i++) {
                     var node = nodes[i];
                     latlng = new google.maps.LatLng(node.x, node.y);

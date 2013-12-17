@@ -5,11 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/resources/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css">
     <script type="text/javascript"
             src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script src="/resources/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 
     <style>
         #map-canvas img {
@@ -45,7 +45,7 @@
         }
 
         function addDistrict() {
-            $.getJSON('/district/findDistrict?id=' + districtId, function(district) {
+            $.getJSON('${pageContext.request.contextPath}/district/findDistrict?id=' + districtId, function(district) {
                 var polyOptions = {
                     strokeColor: '#0000FF',
                     strokeOpacity: 0.5,
@@ -68,7 +68,7 @@
         }
 
         function addTurfs() {
-            $.getJSON('/turf/findAllTurfs?districtId=' + districtId, function(turfs) {
+            $.getJSON('${pageContext.request.contextPath}/turf/findAllTurfs?districtId=' + districtId, function(turfs) {
                 for (var i = 0; i < turfs.length; i++) {
                     var turf = turfs[i];
                     var polyOptions = {
@@ -119,19 +119,19 @@
 
                 // link to turf
                 var turfLink = document.createElement("a")
-                turfLink.setAttribute("href", "/turf/view/" + polygon.indexID);
+                turfLink.setAttribute("href", "${pageContext.request.contextPath}/turf/view/" + polygon.indexID);
                 turfLink.innerHTML = "View Turf";
                 link.appendChild(turfLink);
 
                 // link to turf
                 var eventLink = document.createElement("a")
-                eventLink.setAttribute("href", "/district/view/" + districtId);
+                eventLink.setAttribute("href", "${pageContext.request.contextPath}/district/view/" + districtId);
                 eventLink.innerHTML = " | View Events";
                 link.appendChild(eventLink);
 
                 // link to report
                 var reportLink = document.createElement("a")
-                reportLink.setAttribute("href", "/turf/report/" + polygon.indexID);
+                reportLink.setAttribute("href", "${pageContext.request.contextPath}/turf/report/" + polygon.indexID);
                 reportLink.innerHTML = " | View Reports";
                 link.appendChild(reportLink);
 
@@ -155,7 +155,7 @@
 
 <div id="map-canvas" style="width:100%; height:20em"></div>
 <div id="data" style="width:100%">
-    <a href="/turf/draw?districtId=${district.id}">Add Turf</a>
+    <a href="${pageContext.request.contextPath}/turf/draw?districtId=${district.id}">Add Turf</a>
     <table class="table table-hover" id="sample-table-1">
         <thead>
         <tr>

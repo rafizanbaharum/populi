@@ -5,11 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/resources/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css">
     <script type="text/javascript"
             src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script src="/resources/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 
     <style>
         #map-canvas img {
@@ -41,7 +41,7 @@
         }
 
         function addDistrict() {
-            $.getJSON('/district/findDistrict?id=' + districtId, function(district) {
+            $.getJSON('${pageContext.request.contextPath}/district/findDistrict?id=' + districtId, function(district) {
                 var polyOptions = {
                     strokeColor: '#0000FF',
                     strokeOpacity: 0.5,
@@ -63,7 +63,7 @@
         }
 
         function addTurfs() {
-            $.getJSON('/turf/findAllTurfs?districtId=' + districtId, function(turfs) {
+            $.getJSON('${pageContext.request.contextPath}/turf/findAllTurfs?districtId=' + districtId, function(turfs) {
                 for (var i = 0; i < turfs.length; i++) {
                     var turf = turfs[i];
                     var polyOptions = {

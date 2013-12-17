@@ -314,7 +314,7 @@
 
     </dependencies>
     <build>
-        <finalName>acropolis-web</finalName>
+        <finalName>populi-web</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -343,7 +343,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.1.1</version>
                 <configuration>
-                    <warName>acropolis-web</warName>
+                    <warName>populi-web</warName>
                 </configuration>
             </plugin>
             <plugin>
